@@ -1,0 +1,1 @@
+const t=r=>r?typeof r=="string"?r:new Intl.NumberFormat("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0}).format(r):"[TO BE CONFIRMED]",n=r=>!r||r.includes("[TO BE CONFIRMED]")?"[TO BE CONFIRMED]":r.trim();export{n as a,t as f};
