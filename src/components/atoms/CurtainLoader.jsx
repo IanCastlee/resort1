@@ -3,42 +3,49 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
 /**
- * CurtainLoader
- * Luxury split-curtain transition loader for Gohotelly.
- * Triggers on initial site mount / refresh and on route transitions.
+ * CurtainLoader (Gohotelly)
+ * Style: Horizon Split Shutter (Top & Bottom Reveal).
+ * Features:
+ * - Top panel glides UP, bottom panel glides DOWN.
+ * - Initial site open & refresh entrance reveal.
+ * - Route transition shutter reveal.
+ * - StrictMode safe (never gets stuck on home or any page).
+ * - Safety watchdog timer guarantees dismissal under all circumstances.
  */
 export default function CurtainLoader({ brand }) {
   const location = useLocation();
   const [stage, setStage] = useState('closed'); // 'closed' | 'opening' | 'idle'
-  const isFirstMount = useRef(true);
-  const prevPathname = useRef(location.pathname);
+  const isFirstRoute = useRef(true);
+  const currentPath = useRef(location.pathname);
 
-  // Initial site load reveal
+  // 1. Initial site open & refresh entrance reveal
   useEffect(() => {
-    if (isFirstMount.current) {
-      isFirstMount.current = false;
+    const openTimer = setTimeout(() => {
+      setStage('opening');
+    }, 750);
 
-      const openTimer = setTimeout(() => {
-        setStage('opening');
-      }, 700);
+    const idleTimer = setTimeout(() => {
+      setStage('idle');
+    }, 1500);
 
-      const idleTimer = setTimeout(() => {
-        setStage('idle');
-      }, 1450);
-
-      return () => {
-        clearTimeout(openTimer);
-        clearTimeout(idleTimer);
-      };
-    }
+    return () => {
+      clearTimeout(openTimer);
+      clearTimeout(idleTimer);
+    };
   }, []);
 
-  // Route change transitions
+  // 2. Route change horizon shutter transitions
   useEffect(() => {
-    if (location.pathname === prevPathname.current) {
+    if (isFirstRoute.current) {
+      isFirstRoute.current = false;
+      currentPath.current = location.pathname;
       return;
     }
-    prevPathname.current = location.pathname;
+
+    if (location.pathname === currentPath.current) {
+      return;
+    }
+    currentPath.current = location.pathname;
 
     setStage('closed');
 
@@ -52,7 +59,7 @@ export default function CurtainLoader({ brand }) {
 
     const idleTimer = setTimeout(() => {
       setStage('idle');
-    }, 1250);
+    }, 1300);
 
     return () => {
       clearTimeout(scrollTimer);
@@ -60,6 +67,16 @@ export default function CurtainLoader({ brand }) {
       clearTimeout(idleTimer);
     };
   }, [location.pathname]);
+
+  // 3. Absolute safety watchdog: Guarantee the loader CANNOT stay stuck
+  useEffect(() => {
+    if (stage !== 'idle') {
+      const watchdog = setTimeout(() => {
+        setStage('idle');
+      }, 2400);
+      return () => clearTimeout(watchdog);
+    }
+  }, [stage]);
 
   if (stage === 'idle') return null;
 
@@ -72,24 +89,22 @@ export default function CurtainLoader({ brand }) {
         isFullyClosed ? 'pointer-events-auto' : 'pointer-events-none'
       }`}
     >
-      {/* Left Obsidian Curtain Panel */}
+      {/* Top Horizon Panel (Slides UP) */}
       <div
-        className={`absolute top-0 bottom-0 left-0 w-1/2 bg-[#0d1b2a] border-r border-brand-gold/30 shadow-[20px_0_50px_rgba(0,0,0,0.85)] transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] ${
-          isFullyClosed ? 'translate-x-0' : '-translate-x-full'
+        className={`absolute top-0 left-0 right-0 h-1/2 bg-[#0d1b2a] border-b border-brand-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.85)] transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] ${
+          isFullyClosed ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-brand-navy/40 to-transparent" />
-        <div className="absolute right-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-brand-gold/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-brand-navy/40 to-transparent" />
       </div>
 
-      {/* Right Obsidian Curtain Panel */}
+      {/* Bottom Horizon Panel (Slides DOWN) */}
       <div
-        className={`absolute top-0 bottom-0 right-0 w-1/2 bg-[#0d1b2a] border-l border-brand-gold/30 shadow-[-20px_0_50px_rgba(0,0,0,0.85)] transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] ${
-          isFullyClosed ? 'translate-x-0' : 'translate-x-full'
+        className={`absolute bottom-0 left-0 right-0 h-1/2 bg-[#0d1b2a] border-t border-brand-gold/30 shadow-[0_-20px_50px_rgba(0,0,0,0.85)] transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] ${
+          isFullyClosed ? 'translate-y-0' : 'translate-y-full'
         }`}
       >
-        <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-brand-navy/40 to-transparent" />
-        <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-brand-gold/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-brand-navy/40 to-transparent" />
       </div>
 
       {/* Center Grand Monogram & Brand Crest */}

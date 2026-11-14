@@ -1,0 +1,1 @@
+import{j as i}from"./index-D3buSi4D.js";import{P as e}from"./resort-Ci2f42wR.js";function t({src:s,alt:r,className:o="",eager:a=!1}){return i.jsx("img",{src:s,alt:r,loading:a?"eager":"lazy",decoding:"async",className:`block object-cover ${o}`})}t.propTypes={src:e.string.isRequired,alt:e.string.isRequired,className:e.string,eager:e.bool};export{t as I};
