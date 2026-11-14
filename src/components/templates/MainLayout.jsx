@@ -3,6 +3,7 @@ import Navbar from '../organisms/Navbar';
 import Footer from '../organisms/Footer';
 import FloatingChatButton from '../organisms/FloatingChatButton';
 import DemoNoticeModal from '../molecules/DemoNoticeModal';
+import CurtainLoader from '../atoms/CurtainLoader';
 
 export default function MainLayout({
   brand,
@@ -19,6 +20,9 @@ export default function MainLayout({
 
   return (
     <div className="min-h-screen flex flex-col bg-brand-ivory text-brand-charcoal">
+      {/* Luxury Curtain Page Transition Loader */}
+      <CurtainLoader brand={brand} />
+
       {/* Demo Notice Modal on initial load */}
       <DemoNoticeModal />
 

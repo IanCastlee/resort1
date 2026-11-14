@@ -38,7 +38,7 @@ export default function HeroSection({
       </div>
 
       {/* Hero Foreground Content */}
-      <div className="relative z-10 max-w-[1536px] mx-auto px-2 sm:px-6 lg:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="relative z-10 max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-7 animate-fade-up">
           {badge && (
             <div className="mb-6">

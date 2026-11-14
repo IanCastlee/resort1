@@ -59,8 +59,8 @@ export default function DemoNoticeModal() {
           No real bookings, reservations, or financial transactions will be processed.
         </div>
 
-        <div className="flex justify-end w-full">
-          <Button variant="primary" size="md" fullWidth className="sm:w-auto" onClick={handleDismiss}>
+        <div className="flex justify-start w-full">
+          <Button variant="primary" size="md" onClick={handleDismiss}>
             I Understand, Open Demo Website
           </Button>
         </div>

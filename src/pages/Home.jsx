@@ -61,7 +61,7 @@ export default function Home() {
 
       {/* Resort Highlights Bar */}
       <section className="bg-brand-cream border-b border-brand-border py-12">
-        <div className="max-w-[1536px] mx-auto px-2 sm:px-6 lg:px-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
+        <div className="max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
           {stats.map((stat) => (
             <div key={stat.label}>
               <Heading level="h2" tone="dark" className="mb-1">
@@ -76,7 +76,7 @@ export default function Home() {
       </section>
 
       {/* Short Intro */}
-      <section className="py-24 max-w-5xl mx-auto px-2 sm:px-6 lg:px-10 text-center">
+      <section className="py-24 max-w-5xl mx-auto px-5 sm:px-6 lg:px-10 text-center">
         <SectionTitle
           eyebrow={about.eyebrow}
           title={about.title}
@@ -86,7 +86,7 @@ export default function Home() {
 
       {/* Featured Rooms & Cottages */}
       <section className="py-24 bg-brand-cream border-y border-brand-border">
-        <div className="max-w-[1536px] mx-auto px-2 sm:px-6 lg:px-10">
+        <div className="max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10">
           <SectionTitle
             eyebrow="Accommodations & Day-Use Cottages"
             title={`Restful Stays at ${brand.name}`}
@@ -103,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* Amenities Highlights */}
-      <section className="py-24 max-w-[1536px] mx-auto px-2 sm:px-6 lg:px-10">
+      <section className="py-24 max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10">
         <SectionTitle
           eyebrow="Thermal Springs & Facilities"
           title="Natural Volcanic Healing & Family Comfort"
@@ -115,7 +115,7 @@ export default function Home() {
 
       {/* Gallery Preview */}
       <section className="py-24 bg-brand-cream border-t border-brand-border">
-        <div className="max-w-[1536px] mx-auto px-2 sm:px-6 lg:px-10">
+        <div className="max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10">
           <SectionTitle
             eyebrow="Visual Sanctuary"
             title={`Glimpses of ${brand.name}`}
@@ -135,7 +135,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 max-w-[1536px] mx-auto px-2 sm:px-6 lg:px-10">
+      <section className="py-24 max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10">
         <SectionTitle
           eyebrow="Guest Impressions"
           title={`Why Travelers Love Soaking in ${brand.name}`}

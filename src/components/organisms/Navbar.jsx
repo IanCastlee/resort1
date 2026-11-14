@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Logo from '../atoms/Logo';
 import Button from '../atoms/Button';
 import Icon from '../atoms/Icon';
@@ -11,6 +11,9 @@ export default function Navbar({ brandName, brandSubtitle, navItems, ctaLabel, c
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isScrolled } = useScrollPosition(30);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+  const showDark = !isHome || isScrolled || mobileOpen;
 
   const handleCta = () => {
     setMobileOpen(false);
@@ -23,8 +26,8 @@ export default function Navbar({ brandName, brandSubtitle, navItems, ctaLabel, c
       <div
         className={`w-full transition-all duration-300 overflow-hidden ${
           isScrolled
-            ? 'bg-brand-navy border-b border-brand-gold/30 text-brand-gold py-1 px-2 sm:px-6 lg:px-10'
-            : 'bg-brand-navy/90 text-brand-gold py-1.5 px-2 sm:px-6 lg:px-10 border-b border-brand-gold/20'
+            ? 'bg-brand-navy border-b border-brand-gold/30 text-brand-gold py-1 px-5 sm:px-6 lg:px-10'
+            : 'bg-transparent text-brand-gold py-1.5 px-5 sm:px-6 lg:px-10 border-b border-white/10'
         }`}
       >
         <div className="max-w-[1536px] mx-auto flex items-center justify-between text-[11px] font-semibold uppercase tracking-widest">
@@ -41,15 +44,17 @@ export default function Navbar({ brandName, brandSubtitle, navItems, ctaLabel, c
       {/* Main Navbar */}
       <header
         style={{
-          backgroundColor: isScrolled
+          backgroundColor: showDark
             ? 'rgba(13, 27, 42, 0.98)'
-            : 'rgba(13, 27, 42, 0.88)',
+            : 'transparent',
         }}
-        className={`backdrop-blur-md transition-all duration-300 border-b border-brand-gold ${
-          isScrolled ? 'shadow-luxury py-2 sm:py-3' : 'py-2.5 sm:py-5'
+        className={`backdrop-blur-md transition-all duration-300 ${
+          showDark
+            ? 'shadow-luxury py-2 sm:py-3 border-b border-brand-gold'
+            : 'py-2.5 sm:py-5 border-b border-transparent shadow-none'
         }`}
       >
-        <div className="max-w-[1536px] mx-auto px-2 sm:px-6 lg:px-10 flex items-center justify-between gap-6">
+        <div className="max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10 flex items-center justify-between gap-6">
           <Logo name={brandName} subtitle={brandSubtitle} tone="light" />
 
           <nav className="hidden lg:flex items-center gap-7" aria-label="Main navigation">
