@@ -26,8 +26,8 @@ export default function Navbar({ brandName, brandSubtitle, navItems, ctaLabel, c
       <div
         className={`w-full transition-all duration-300 overflow-hidden ${
           isScrolled
-            ? 'bg-brand-navy border-b border-brand-gold/30 text-brand-gold py-1 px-5 sm:px-6 lg:px-10'
-            : 'bg-transparent text-brand-gold py-1.5 px-5 sm:px-6 lg:px-10 border-b border-white/10'
+            ? 'bg-brand-navy border-b border-brand-gold/30 text-brand-gold py-1 px-4 sm:px-6 lg:px-10'
+            : 'bg-transparent text-brand-gold py-1.5 px-4 sm:px-6 lg:px-10 border-b border-white/10'
         }`}
       >
         <div className="max-w-[1536px] mx-auto flex items-center justify-between text-[11px] font-semibold uppercase tracking-widest">
@@ -54,7 +54,7 @@ export default function Navbar({ brandName, brandSubtitle, navItems, ctaLabel, c
             : 'py-2.5 sm:py-5 border-b border-transparent shadow-none'
         }`}
       >
-        <div className="max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10 flex items-center justify-between gap-6">
+        <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10 flex items-center justify-between gap-6">
           <Logo name={brandName} subtitle={brandSubtitle} tone="light" />
 
           <nav className="hidden lg:flex items-center gap-7" aria-label="Main navigation">

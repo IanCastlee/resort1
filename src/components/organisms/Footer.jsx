@@ -28,7 +28,7 @@ export default function Footer({
 
   return (
     <footer className="bg-brand-navy text-brand-ivory pt-20 pb-12 border-t border-brand-gold">
-      <div className="max-w-[1536px] mx-auto px-5 sm:px-6 lg:px-10">
+      <div className="max-w-[1536px] mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 pb-16">
           <div className="lg:col-span-2 space-y-5">
             <Logo name={brand.name} subtitle={brand.location} tone="light" />
