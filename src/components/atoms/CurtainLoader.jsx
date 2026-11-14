@@ -2,18 +2,39 @@ import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
+/**
+ * CurtainLoader
+ * Luxury split-curtain transition loader for Gohotelly.
+ * Triggers on initial site mount / refresh and on route transitions.
+ */
 export default function CurtainLoader({ brand }) {
   const location = useLocation();
-  const [stage, setStage] = useState('idle'); // 'idle' | 'closed' | 'opening'
+  const [stage, setStage] = useState('closed'); // 'closed' | 'opening' | 'idle'
   const isFirstMount = useRef(true);
   const prevPathname = useRef(location.pathname);
 
+  // Initial site load reveal
   useEffect(() => {
     if (isFirstMount.current) {
       isFirstMount.current = false;
-      return;
-    }
 
+      const openTimer = setTimeout(() => {
+        setStage('opening');
+      }, 700);
+
+      const idleTimer = setTimeout(() => {
+        setStage('idle');
+      }, 1450);
+
+      return () => {
+        clearTimeout(openTimer);
+        clearTimeout(idleTimer);
+      };
+    }
+  }, []);
+
+  // Route change transitions
+  useEffect(() => {
     if (location.pathname === prevPathname.current) {
       return;
     }
@@ -27,11 +48,11 @@ export default function CurtainLoader({ brand }) {
 
     const openTimer = setTimeout(() => {
       setStage('opening');
-    }, 550);
+    }, 600);
 
     const idleTimer = setTimeout(() => {
       setStage('idle');
-    }, 1050);
+    }, 1250);
 
     return () => {
       clearTimeout(scrollTimer);
@@ -47,50 +68,61 @@ export default function CurtainLoader({ brand }) {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 z-[200] pointer-events-none overflow-hidden"
+      className={`fixed inset-0 z-[250] overflow-hidden ${
+        isFullyClosed ? 'pointer-events-auto' : 'pointer-events-none'
+      }`}
     >
-      {/* Left Curtain */}
+      {/* Left Obsidian Curtain Panel */}
       <div
-        className={`absolute top-0 bottom-0 left-0 w-1/2 bg-[#0d1b2a] border-r border-brand-gold/30 shadow-[20px_0_40px_rgba(0,0,0,0.85)] transition-transform duration-500 ease-[cubic-bezier(0.77,0,0.175,1)] ${
+        className={`absolute top-0 bottom-0 left-0 w-1/2 bg-[#0d1b2a] border-r border-brand-gold/30 shadow-[20px_0_50px_rgba(0,0,0,0.85)] transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] ${
           isFullyClosed ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-brand-navyLight/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-brand-navy/40 to-transparent" />
+        <div className="absolute right-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-brand-gold/50 to-transparent" />
       </div>
 
-      {/* Right Curtain */}
+      {/* Right Obsidian Curtain Panel */}
       <div
-        className={`absolute top-0 bottom-0 right-0 w-1/2 bg-[#0d1b2a] border-l border-brand-gold/30 shadow-[-20px_0_40px_rgba(0,0,0,0.85)] transition-transform duration-500 ease-[cubic-bezier(0.77,0,0.175,1)] ${
+        className={`absolute top-0 bottom-0 right-0 w-1/2 bg-[#0d1b2a] border-l border-brand-gold/30 shadow-[-20px_0_50px_rgba(0,0,0,0.85)] transition-transform duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] ${
           isFullyClosed ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="absolute inset-0 bg-gradient-to-l from-black/70 via-transparent to-brand-navyLight/20" />
+        <div className="absolute inset-0 bg-gradient-to-l from-black/85 via-brand-navy/40 to-transparent" />
+        <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-brand-gold/50 to-transparent" />
       </div>
 
-      {/* Center Monogram */}
+      {/* Center Grand Monogram & Brand Crest */}
       <div
-        className={`absolute inset-0 flex flex-col items-center justify-center z-10 transition-all duration-300 ${
-          isFullyClosed ? 'opacity-100 scale-100 delay-150' : 'opacity-0 scale-95'
+        className={`absolute inset-0 flex flex-col items-center justify-center z-10 transition-all duration-400 ease-out ${
+          isFullyClosed ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
         }`}
       >
         <div className="relative flex flex-col items-center text-center px-6">
-          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-brand-gold flex items-center justify-center font-serif text-xl text-brand-gold mb-3 sm:mb-4 shadow-[0_0_30px_rgba(197,160,89,0.35)] bg-brand-navy">
-            {brand?.name ? brand.name.charAt(0) : 'G'}
+          <div className="relative mb-3 sm:mb-4">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-brand-gold flex items-center justify-center font-serif text-2xl sm:text-3xl text-brand-gold shadow-[0_0_35px_rgba(201,162,77,0.35)] bg-[#102030]">
+              {brand?.name ? brand.name.charAt(0) : 'G'}
+            </div>
+            <div className="absolute -inset-1.5 rounded-full border border-brand-gold/30 animate-pulse pointer-events-none" />
           </div>
 
-          <h2 className="font-serif text-lg sm:text-2xl font-normal tracking-[0.22em] text-brand-ivory uppercase mb-1">
+          <h2 className="font-sans text-xl sm:text-3xl font-bold tracking-[0.28em] text-white uppercase mb-1 drop-shadow-lg">
             {brand?.name || 'GOHOTELLY'}
           </h2>
 
-          <div className="flex items-center gap-3 my-1.5 sm:my-2">
-            <span className="w-8 sm:w-12 h-px bg-brand-gold/70" />
+          <div className="flex items-center gap-3 my-2 sm:my-2.5">
+            <span className="w-10 sm:w-16 h-px bg-brand-gold/70" />
             <span className="w-1.5 h-1.5 rotate-45 bg-brand-gold" />
-            <span className="w-8 sm:w-12 h-px bg-brand-gold/70" />
+            <span className="w-10 sm:w-16 h-px bg-brand-gold/70" />
           </div>
 
-          <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.32em] text-brand-gold font-sans font-medium">
-            {brand?.location || 'Hot Spring Sanctuary'}
+          <span className="text-[9px] sm:text-[11px] uppercase tracking-[0.34em] text-brand-goldLight font-sans font-medium mb-4">
+            Hot Springs Resort &amp; Hotel
           </span>
+
+          <div className="w-32 sm:w-44 h-0.5 bg-white/10 rounded-full overflow-hidden relative">
+            <div className="absolute inset-y-0 left-0 bg-gradient-to-r from-transparent via-brand-gold to-transparent w-full animate-pulse" />
+          </div>
         </div>
       </div>
     </div>
@@ -98,5 +130,7 @@ export default function CurtainLoader({ brand }) {
 }
 
 CurtainLoader.propTypes = {
-  brand: PropTypes.object,
+  brand: PropTypes.shape({
+    name: PropTypes.string,
+  }),
 };
